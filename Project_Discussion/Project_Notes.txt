@@ -162,7 +162,7 @@ pipeline {
         stage('SCM_Checkout') {
             steps {
                echo "Perform SCM Checkout"
-			   git 'https://github.com/SA-Team-DevOps-03-Dec-24/BankingApp.git'			   
+			   git 'https://github.com/Sakshichoudhari/BankingApp.git'			   
             }
         }
         stage('Application Build') {
@@ -174,9 +174,9 @@ pipeline {
         stage('Build Docker Image') {
             steps {
 				sh 'docker version'
-				sh "docker build -t loksaieta/bankapp-eta-app:${BUILD_NUMBER} ."
+				sh "docker build -t sakshidevops/bankapp-eta-app:${BUILD_NUMBER} ."
 				sh 'docker image list'
-				sh "docker tag loksaieta/bankapp-eta-app:${BUILD_NUMBER} loksaieta/bankapp-eta-app:latest"
+				sh "docker tag sakshidevops/bankapp-eta-app:${BUILD_NUMBER} loksaieta/bankapp-eta-app:latest"
             }
         }
 		stage('Login2DockerHub') {
@@ -187,13 +187,13 @@ pipeline {
 		}
 		stage('Publish_to_Docker_Registry') {
 			steps {
-				sh "docker push loksaieta/bankapp-eta-app:latest"
+				sh "docker push sakshidevops/bankapp-eta-app:latest"
 			}
 		}
         stage('Deploy to Kubernetes Cluster') {
             steps {
                 script{
-                   sshPublisher(publishers: [sshPublisherDesc(configName: 'SA-Jan09-KMaster', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f kubernetesdeploy.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '*.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                  sshPublisher(publishers: [sshPublisherDesc(configName: 'Kubernetesmaster ', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f bankingapp-deploy.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '*.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                 }
             }
         }
