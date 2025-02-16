@@ -176,7 +176,7 @@ pipeline {
 				sh 'docker version'
 				sh "docker build -t sakshidevops/bankapp-eta-app:${BUILD_NUMBER} ."
 				sh 'docker image list'
-				sh "docker tag sakshidevops/bankapp-eta-app:${BUILD_NUMBER} loksaieta/bankapp-eta-app:latest"
+				sh "docker tag sakshidevops/bankapp-eta-app:${BUILD_NUMBER} sakshidevops/bankapp-eta-app:latest"
             }
         }
 		stage('Login2DockerHub') {
